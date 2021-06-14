@@ -1,0 +1,28 @@
+{
+  "name": "obj2-caralibro",
+  "version": "1.0.0",
+  "description": "Ejercicio de la UNIHUR-objetos 2 - Caralibro",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "mocha": "^9.0.0"
+  },
+  "scripts": {
+    "test": "mocha tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elicasama/obj2-caralibro.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elicasama/obj2-caralibro/issues"
+  },
+  "homepage": "https://github.com/elicasama/obj2-caralibro#readme"
+}
