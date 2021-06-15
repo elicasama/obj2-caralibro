@@ -7,6 +7,7 @@ const Video = require("../src/Video");
 const CalidadSD = require("../src/CalidadSD");
 const CalidadHD720 = require("../src/CalidadHD720");
 const CalidadHD1080 = require("../src/CalidadHD1080");
+const errores = require("../src/errores");
 
 describe("Probando caralibro", () => {
   describe("Se calcular el espacio ocupado por tipo de publicación", () => {
@@ -70,6 +71,24 @@ describe("Probando caralibro", () => {
         usuario.agregarPublicacion(videoHD1080);
 
         assert.equal(9557, usuario.espacioDePublicaciones());
+      });
+    });
+    describe("Me gusta", () => {
+      it("Agregar me gusta a una publicación", () => {
+        const videoSD = new Video(new CalidadSD(), 200);
+        const usuarioQueMira = new Usuario();
+        videoSD.recibirMeGusta(usuarioQueMira);
+
+        assert.equal(1, videoSD.losQueDieronMegusta.length);
+      });
+      it("Un usuario no puede dar me gusta más de una vez", () => {
+        const videoSD = new Video(new CalidadSD(), 200);
+        const usuario1 = new Usuario();
+        videoSD.recibirMeGusta(usuario1);
+
+        assert.throws(() => {
+          videoSD.recibirMeGusta(usuario1);
+        }, errores.ElUsuarioYaDioMegusta);
       });
     });
   });
