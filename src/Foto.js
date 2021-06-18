@@ -1,8 +1,8 @@
 const Publicacion = require("./Publicacion");
 
 module.exports = class Foto extends Publicacion {
-  constructor(alto, ancho) {
-    super();
+  constructor(alto, ancho, permiso) {
+    super(permiso);
     this.alto = alto;
     this.ancho = ancho;
     this.factorDeCompresion = 0.7;

@@ -10,6 +10,7 @@ const CalidadHD1080 = require("../src/CalidadHD1080");
 const errores = require("../src/errores");
 const Publico = require("../src/Publico");
 const SoloAmigos = require("../src/SoloAmigos");
+const PrivadoListaPermitidos = require("../src/PrivadoListaPermitidos");
 
 describe("Probando caralibro", () => {
   describe("Se calcular el espacio ocupado por tipo de publicación", () => {
@@ -19,6 +20,7 @@ describe("Probando caralibro", () => {
         assert.equal(9, foto.espacioQueOcupa());
       });
     });
+
     describe("Texto", () => {
       it("Es la cantidad de caracteres que tiene", () => {
         const contenido = "Este es un contenido de prueba"; // <-- tiene 30 caracteres
@@ -26,6 +28,7 @@ describe("Probando caralibro", () => {
         assert.equal(30, texto.espacioQueOcupa());
       });
     });
+
     describe("Video", () => {
       it("Calidad SD = a la duración en segundos", () => {
         const video = new Video(new CalidadSD(), 120);
@@ -44,6 +47,7 @@ describe("Probando caralibro", () => {
       });
     });
   });
+
   describe("Usuarios", () => {
     describe("Se agregan publicaciones", () => {
       it("Agrego una publicación tipo Texto", () => {
@@ -55,6 +59,7 @@ describe("Probando caralibro", () => {
         assert.equal(1, usuario.publicaciones.length);
       });
     });
+
     describe("Se calcula el espacio que ocupan de las publicaciones", () => {
       it("Todos juntos", () => {
         const contenido = "Un pequeño contenido de pocas letras";
@@ -75,6 +80,7 @@ describe("Probando caralibro", () => {
         assert.equal(9557, usuario.espacioDePublicaciones());
       });
     });
+
     describe("Me gusta", () => {
       it("Agregar me gusta a una publicación", () => {
         const videoSD = new Video(new CalidadSD(), 200);
@@ -94,6 +100,7 @@ describe("Probando caralibro", () => {
       });
     });
   });
+
   describe("Permisos", () => {
     it("El usuario que publica siempre puede ver su publicación", () => {
       const juan = new Usuario();
@@ -108,7 +115,7 @@ describe("Probando caralibro", () => {
 
       juan.agregarPublicacion(texto);
 
-      assert.equal(true, texto.puedeVerPublicación(juan));
+      assert.equal(true, texto.puedeVerPublicacion(juan));
     });
 
     describe("Publico", () => {
@@ -121,9 +128,10 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(true, texto.puedeVerPublicación(pedro));
+        assert.equal(true, texto.puedeVerPublicacion(pedro));
       });
     });
+
     describe("Sólo Amigos", () => {
       it("Un usuario puede ver una publicación si está como amigo", () => {
         const contenido = "Un pequeño contenido de pocas letras";
@@ -140,9 +148,8 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(true, texto.puedeVerPublicación(pedro));
+        assert.equal(true, texto.puedeVerPublicacion(pedro));
       });
-
       it("Un usuario no puede ver una publicación si no está como amigo", () => {
         const juan = new Usuario();
         const pedro = new Usuario();
@@ -157,7 +164,41 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(false, texto.puedeVerPublicación(loco));
+        assert.equal(false, texto.puedeVerPublicacion(loco));
+      });
+    });
+
+    describe("Lista de Permitidos", () => {
+      it("Un usuario puede ver una publicación si está en la lista de Permitidos", () => {
+        const pedro = new Usuario();
+        const loco = new Usuario();
+        const bb8 = new Usuario();
+
+        const usuariosPermitidos = [pedro, loco, bb8];
+
+        const videoSD = new Video(
+          CalidadSD,
+          2222,
+          new PrivadoListaPermitidos(usuariosPermitidos)
+        );
+
+        assert.equal(true, videoSD.puedeVerPublicacion(pedro));
+      });
+      it("Un usuario no puede ver una publicación si no está en la lista de permitidos", () => {
+        const juan = new Usuario();
+        const pedro = new Usuario();
+        const loco = new Usuario();
+        const bb8 = new Usuario();
+
+        const usuariosPermitidos = [loco, bb8, juan];
+
+        const videoSD = new Video(
+          CalidadSD,
+          2222,
+          new PrivadoListaPermitidos(usuariosPermitidos)
+        );
+
+        assert.equal(false, videoSD.puedeVerPublicacion(pedro));
       });
     });
   });

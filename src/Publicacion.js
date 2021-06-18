@@ -13,7 +13,7 @@ module.exports = class Publicacion {
       this.losQueDieronMegusta.push(usuario);
     }
   }
-  puedeVerPublicación(usuario) {
-    return this.permiso.dejarVerPublicación(usuario);
+  puedeVerPublicacion(usuario) {
+    return this.permiso.dejarVerPublicacion(usuario);
   }
 };

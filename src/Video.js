@@ -1,8 +1,8 @@
 const Publicacion = require("./Publicacion");
 
 module.exports = class Video extends Publicacion {
-  constructor(calidad, duracion) {
-    super();
+  constructor(calidad, duracion, permiso) {
+    super(permiso);
     this.calidad = calidad;
     this.duracion = duracion;
   }

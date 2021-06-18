@@ -6,7 +6,7 @@ module.exports = class SoloAmigos extends Publicacion {
     this.usuarioQuePublica = usuarioQuePublica;
   }
 
-  dejarVerPublicación(usuario) {
+  dejarVerPublicacion(usuario) {
     return this.usuarioQuePublica.amigos.includes(usuario);
   }
 };
