@@ -116,7 +116,7 @@ describe("Probando caralibro", () => {
 
       juan.agregarPublicacion(texto);
 
-      assert.equal(true, texto.puedeVerPublicacion(juan));
+      assert.equal(true, texto.esVisiblePor(juan));
     });
 
     describe("Publico", () => {
@@ -129,7 +129,7 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(true, texto.puedeVerPublicacion(pedro));
+        assert.equal(true, texto.esVisiblePor(pedro));
       });
     });
 
@@ -149,7 +149,7 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(true, texto.puedeVerPublicacion(pedro));
+        assert.equal(true, texto.esVisiblePor(pedro));
       });
       it("Un usuario no puede ver una publicación si no está como amigo", () => {
         const juan = new Usuario();
@@ -165,7 +165,7 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(false, texto.puedeVerPublicacion(loco));
+        assert.equal(false, texto.esVisiblePor(loco));
       });
     });
 
@@ -183,7 +183,7 @@ describe("Probando caralibro", () => {
           new PrivadoListaPermitidos(usuariosPermitidos)
         );
 
-        assert.equal(true, videoSD.puedeVerPublicacion(pedro));
+        assert.equal(true, videoSD.esVisiblePor(pedro));
       });
       it("Un usuario no puede ver una publicación si no está en la lista de permitidos", () => {
         const juan = new Usuario();
@@ -199,7 +199,7 @@ describe("Probando caralibro", () => {
           new PrivadoListaPermitidos(usuariosPermitidos)
         );
 
-        assert.equal(false, videoSD.puedeVerPublicacion(pedro));
+        assert.equal(false, videoSD.esVisiblePor(pedro));
       });
     });
 
@@ -217,7 +217,7 @@ describe("Probando caralibro", () => {
           new ListaExcluidos(usuarioExcluidos)
         );
 
-        assert.equal(false, videoSD.puedeVerPublicacion(pedro));
+        assert.equal(false, videoSD.esVisiblePor(pedro));
       });
       it("Un usuario puede ver una publicación si no está en la lista de excluidos", () => {
         const juan = new Usuario();
@@ -233,7 +233,70 @@ describe("Probando caralibro", () => {
           new ListaExcluidos(usuarioExcluidos)
         );
 
-        assert.equal(true, videoSD.puedeVerPublicacion(pedro));
+        assert.equal(true, videoSD.esVisiblePor(pedro));
+      });
+    });
+
+    describe("Amigos", () => {
+      it("El más popular de ´mis amigos´ es aquel que tiene más amigos", () => {
+        const juan = new Usuario();
+        const pedro = new Usuario();
+        const bb8 = new Usuario();
+        const jose = new Usuario();
+        const maria = new Usuario();
+
+        juan.agregarAmigo(jose);
+        juan.agregarAmigo(bb8);
+        juan.agregarAmigo(maria);
+
+        bb8.agregarAmigo(juan);
+        bb8.agregarAmigo(pedro);
+        bb8.agregarAmigo(jose);
+        bb8.agregarAmigo(maria);
+
+        jose.agregarAmigo(pedro);
+        jose.agregarAmigo(maria);
+
+        assert.deepEqual(bb8, juan.elMasPopular());
+      });
+
+      describe("Más amistoso", () => {
+        it("Si el primero tiene más amigos = true", () => {
+          const juan = new Usuario();
+          const pedro = new Usuario();
+          const bb8 = new Usuario();
+          const jose = new Usuario();
+          const maria = new Usuario();
+
+          juan.agregarAmigo(pedro);
+          juan.agregarAmigo(bb8);
+          juan.agregarAmigo(maria);
+
+          bb8.agregarAmigo(juan);
+          bb8.agregarAmigo(pedro);
+          bb8.agregarAmigo(jose);
+          bb8.agregarAmigo(maria);
+
+          assert.equal(true, bb8.esMasAmistosoQue(juan));
+        });
+        it("Si el segundo tiene más amigos =  false", () => {
+          const juan = new Usuario();
+          const pedro = new Usuario();
+          const bb8 = new Usuario();
+          const jose = new Usuario();
+          const maria = new Usuario();
+
+          juan.agregarAmigo(pedro);
+          juan.agregarAmigo(bb8);
+          juan.agregarAmigo(maria);
+
+          bb8.agregarAmigo(juan);
+          bb8.agregarAmigo(pedro);
+          bb8.agregarAmigo(jose);
+          bb8.agregarAmigo(maria);
+
+          assert.equal(false, juan.esMasAmistosoQue(bb8));
+        });
       });
     });
   });

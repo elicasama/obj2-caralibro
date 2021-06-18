@@ -1,4 +1,3 @@
-//var publicaciones = require("../src/Publicacion");
 var _ = require("lodash");
 
 module.exports = class Usuario {
@@ -19,5 +18,17 @@ module.exports = class Usuario {
 
   agregarAmigo(usuario) {
     this.amigos.push(usuario);
+  }
+
+  esMasAmistosoQue(usuario) {
+    return this.amigos.length > usuario.amigos.length;
+  }
+
+
+
+  elMasPopular() {
+    return this.amigos.reduce((popular, amigo) =>
+      popular.amigos.length > amigo.amigos.length ? popular : amigo
+    );
   }
 };

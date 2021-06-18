@@ -6,7 +6,7 @@ module.exports = class PrivadoListaPermitidos extends Publicacion {
     this.usuariosPermitidos = usuariosPermitidos;
   }
 
-  dejarVerPublicacion(usuario) {
+  puedeSerVistaPor(usuario) {
     return this.usuariosPermitidos.includes(usuario);
   }
 };

@@ -1,7 +1,7 @@
 const Publicacion = require("./Publicacion");
 
 module.exports = class Publico {
-  dejarVerPublicacion() {
+  puedeSerVistaPor() {
     return true;
   }
 };
