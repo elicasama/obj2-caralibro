@@ -11,6 +11,7 @@ const errores = require("../src/errores");
 const Publico = require("../src/Publico");
 const SoloAmigos = require("../src/SoloAmigos");
 const PrivadoListaPermitidos = require("../src/PrivadoListaPermitidos");
+const ListaExcluidos = require("../src/ListaExcluidos");
 
 describe("Probando caralibro", () => {
   describe("Se calcular el espacio ocupado por tipo de publicación", () => {
@@ -199,6 +200,40 @@ describe("Probando caralibro", () => {
         );
 
         assert.equal(false, videoSD.puedeVerPublicacion(pedro));
+      });
+    });
+
+    describe("Lista de Excluidos", () => {
+      it("Un usuario no puede ver una publicación si está en la lista de excluidos", () => {
+        const pedro = new Usuario();
+        const loco = new Usuario();
+        const bb8 = new Usuario();
+
+        const usuarioExcluidos = [pedro, loco, bb8];
+
+        const videoSD = new Video(
+          CalidadSD,
+          2222,
+          new ListaExcluidos(usuarioExcluidos)
+        );
+
+        assert.equal(false, videoSD.puedeVerPublicacion(pedro));
+      });
+      it("Un usuario puede ver una publicación si no está en la lista de excluidos", () => {
+        const juan = new Usuario();
+        const pedro = new Usuario();
+        const loco = new Usuario();
+        const bb8 = new Usuario();
+
+        const usuarioExcluidos = [loco, bb8, juan];
+
+        const videoSD = new Video(
+          CalidadSD,
+          2222,
+          new ListaExcluidos(usuarioExcluidos)
+        );
+
+        assert.equal(true, videoSD.puedeVerPublicacion(pedro));
       });
     });
   });

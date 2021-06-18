@@ -1,12 +1,12 @@
 const Publicacion = require("./Publicacion");
 
 module.exports = class PrivadoListaPermitidos extends Publicacion {
-  constructor(listaUsuariosPermitidos) {
+  constructor(usuariosPermitidos) {
     super();
-    this.listaUsuariosPermitidos = listaUsuariosPermitidos;
+    this.usuariosPermitidos = usuariosPermitidos;
   }
 
   dejarVerPublicacion(usuario) {
-    return this.listaUsuariosPermitidos.includes(usuario);
+    return this.usuariosPermitidos.includes(usuario);
   }
 };
