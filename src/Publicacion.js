@@ -14,6 +14,6 @@ module.exports = class Publicacion {
     }
   }
   esVisiblePor(usuario) {
-    return this.permiso.puedeSerVistaPor(usuario);
+    return this.permiso.permiteVer(usuario);
   }
 };

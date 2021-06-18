@@ -238,7 +238,7 @@ describe("Probando caralibro", () => {
     });
 
     describe("Amigos", () => {
-      it("El más popular de ´mis amigos´ es aquel que tiene más amigos", () => {
+      it("El más popular de mis amigos es aquel que tiene más amigos", () => {
         const juan = new Usuario();
         const pedro = new Usuario();
         const bb8 = new Usuario();

@@ -6,7 +6,7 @@ module.exports = class ListaExcluidos extends Publicacion {
     this.usuarioExcluidos = usuarioExcluidos;
   }
 
-  puedeSerVistaPor(usuario) {
+  permiteVer(usuario) {
     return !this.usuarioExcluidos.includes(usuario);
   }
 };
