@@ -8,6 +8,8 @@ const CalidadSD = require("../src/CalidadSD");
 const CalidadHD720 = require("../src/CalidadHD720");
 const CalidadHD1080 = require("../src/CalidadHD1080");
 const errores = require("../src/errores");
+const Publico = require("../src/Publico");
+const SoloAmigos = require("../src/SoloAmigos");
 
 describe("Probando caralibro", () => {
   describe("Se calcular el espacio ocupado por tipo de publicación", () => {
@@ -91,5 +93,49 @@ describe("Probando caralibro", () => {
         }, errores.ElUsuarioYaDioMegusta);
       });
     });
+  });
+  describe("Permisos", () => {
+    describe("Publico", () => {
+      it("Cualquiera puede ver una publicación publica", () => {
+        const contenido = "Un pequeño contenido de pocas letras";
+        const texto = new Texto(contenido, new Publico()); 
+        // texto.permiso = new Publico();
+        //texto.asignarPermiso(new Publico());
+        
+        const juan = new Usuario ();
+        const pedro = new Usuario ();
+        // const loco = new Usuario ();
+        // const bb8 = new Usuario ();
+
+        // juan.agregarAmigo(pedro);
+        // juan.agregarAmigo(loco);
+        // juan.agregarAmigo(bb8);
+
+       // Cómo hago para que la publicación tenga a los amigos         
+        juan.agregarPublicacion(texto);
+      // console.log("El permiso del texto es " + texto.permiso);
+
+        assert.equal(true, texto.puedeVerPublicación(pedro));
+      });
+      describe("Sólo Amigos", () => {
+      it("Si un usuario está como amigo puede ver la publicación", () => {
+        const contenido = "Un pequeño contenido de pocas letras";
+        const juan = new Usuario();
+        const pedro = new Usuario();
+        const loco = new Usuario();
+        const bb8 = new Usuario();
+
+        const texto = new Texto(contenido, new SoloAmigos(juan)); 
+  
+        juan.agregarAmigo(pedro);
+        juan.agregarAmigo(loco);
+        juan.agregarAmigo(bb8);
+
+        juan.agregarPublicacion(texto);
+
+        assert.equal(true, texto.puedeVerPublicación(pedro));
+      });
+    });
+  });
   });
 });

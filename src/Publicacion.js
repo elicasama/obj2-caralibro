@@ -1,7 +1,8 @@
 const errores = require("./errores");
 
 module.exports = class Publicacion {
-  constructor() {
+  constructor(permiso) {
+    this.permiso = permiso;
     this.losQueDieronMegusta = [];
   }
 
@@ -11,5 +12,8 @@ module.exports = class Publicacion {
     } else {
       this.losQueDieronMegusta.push(usuario);
     }
+  }
+  puedeVerPublicación(usuario) {
+    return this.permiso.dejarVerPublicación(usuario);
   }
 };

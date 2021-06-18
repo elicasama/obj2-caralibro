@@ -4,6 +4,7 @@ var _ = require("lodash");
 module.exports = class Usuario {
   constructor() {
     this.publicaciones = [];
+    this.amigos = [];
   }
 
   agregarPublicacion(publicacion) {
@@ -14,5 +15,9 @@ module.exports = class Usuario {
     return _.sumBy(this.publicaciones, (publicacion) =>
       publicacion.espacioQueOcupa()
     );
+  }
+
+  agregarAmigo(usuario) {
+    this.amigos.push(usuario);
   }
 };
