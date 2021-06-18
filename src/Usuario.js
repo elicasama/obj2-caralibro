@@ -4,7 +4,7 @@ var _ = require("lodash");
 module.exports = class Usuario {
   constructor() {
     this.publicaciones = [];
-    this.amigos = [];
+    this.amigos = [this];
   }
 
   agregarPublicacion(publicacion) {

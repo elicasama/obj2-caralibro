@@ -95,38 +95,45 @@ describe("Probando caralibro", () => {
     });
   });
   describe("Permisos", () => {
+    it("El usuario que publica siempre puede ver su publicación", () => {
+      const juan = new Usuario();
+      const pedro = new Usuario();
+      const bb8 = new Usuario();
+
+      juan.agregarAmigo(pedro);
+      juan.agregarAmigo(bb8);
+
+      const contenido = "Un pequeño contenido de pocas letras";
+      const texto = new Texto(contenido, new SoloAmigos(juan));
+
+      juan.agregarPublicacion(texto);
+
+      assert.equal(true, texto.puedeVerPublicación(juan));
+    });
+
     describe("Publico", () => {
       it("Cualquiera puede ver una publicación publica", () => {
+        const juan = new Usuario();
+        const pedro = new Usuario();
+
         const contenido = "Un pequeño contenido de pocas letras";
-        const texto = new Texto(contenido, new Publico()); 
-        // texto.permiso = new Publico();
-        //texto.asignarPermiso(new Publico());
-        
-        const juan = new Usuario ();
-        const pedro = new Usuario ();
-        // const loco = new Usuario ();
-        // const bb8 = new Usuario ();
+        const texto = new Texto(contenido, new Publico());
 
-        // juan.agregarAmigo(pedro);
-        // juan.agregarAmigo(loco);
-        // juan.agregarAmigo(bb8);
-
-       // Cómo hago para que la publicación tenga a los amigos         
         juan.agregarPublicacion(texto);
-      // console.log("El permiso del texto es " + texto.permiso);
 
         assert.equal(true, texto.puedeVerPublicación(pedro));
       });
-      describe("Sólo Amigos", () => {
-      it("Si un usuario está como amigo puede ver la publicación", () => {
+    });
+    describe("Sólo Amigos", () => {
+      it("Un usuario puede ver una publicación si está como amigo", () => {
         const contenido = "Un pequeño contenido de pocas letras";
         const juan = new Usuario();
         const pedro = new Usuario();
         const loco = new Usuario();
         const bb8 = new Usuario();
 
-        const texto = new Texto(contenido, new SoloAmigos(juan)); 
-  
+        const texto = new Texto(contenido, new SoloAmigos(juan));
+
         juan.agregarAmigo(pedro);
         juan.agregarAmigo(loco);
         juan.agregarAmigo(bb8);
@@ -135,7 +142,23 @@ describe("Probando caralibro", () => {
 
         assert.equal(true, texto.puedeVerPublicación(pedro));
       });
+
+      it("Un usuario no puede ver una publicación si no está como amigo", () => {
+        const juan = new Usuario();
+        const pedro = new Usuario();
+        const loco = new Usuario();
+        const bb8 = new Usuario();
+
+        juan.agregarAmigo(pedro);
+        juan.agregarAmigo(bb8);
+
+        const contenido = "Un pequeño contenido de pocas letras";
+        const texto = new Texto(contenido, new SoloAmigos(juan));
+
+        juan.agregarPublicacion(texto);
+
+        assert.equal(false, texto.puedeVerPublicación(loco));
+      });
     });
-  });
   });
 });
