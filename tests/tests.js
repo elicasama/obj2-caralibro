@@ -1,5 +1,4 @@
 var assert = require("assert");
-// const Publicacion = require("../src/Publicacion");
 const Foto = require("../src/Foto");
 const Texto = require("../src/Texto");
 const Usuario = require("../src/Usuario");
@@ -250,14 +249,13 @@ describe("Probando caralibro", () => {
         bb8.agregarAmigo(jose);
         bb8.agregarAmigo(maria);
 
-
         const videoSD0 = new Video(new CalidadHD720(), 200, new Publico());
         const videoHD1 = new Video(new CalidadSD(), 300, new Publico());
         const videoHD2 = new Video(new CalidadHD1080(), 550, new Publico());
         const videoSD3 = new Video(new CalidadSD(), 1200, new Publico());
-        
+
         juan.agregarPublicacion(videoSD0);
-        pedro.agregarPublicacion(videoHD1)
+        pedro.agregarPublicacion(videoHD1);
         pedro.agregarPublicacion(videoSD3);
         maria.agregarPublicacion(videoHD2);
 
@@ -275,8 +273,8 @@ describe("Probando caralibro", () => {
         videoSD3.recibirMeGusta(jose);
         videoSD3.recibirMeGusta(bb8);
 
-        //publicaciones de Maria ---> 1 MeGusta        
-        videoHD2.recibirMeGusta(bb8)
+        //publicaciones de Maria ---> 1 MeGusta
+        videoHD2.recibirMeGusta(bb8);
 
         console.log("Total de MeGusta de Pedro: " + pedro.totalDeMeGusta());
         assert.deepEqual(pedro, bb8.elMasPopular());
@@ -356,6 +354,77 @@ describe("Probando caralibro", () => {
           juan.agregarPublicacion(foto);
 
           assert.deepEqual([pedro, bb8], juan.mejoresAmigos());
+        });
+      });
+
+      describe("Es Stalker", () => {
+        it("NO se es stalker si da MeGusta a menos del 90% de las publicaciones", () => {
+          const juan = new Usuario();
+          const pedro = new Usuario();
+          const bb8 = new Usuario();
+
+          juan.agregarAmigo(pedro);
+          juan.agregarAmigo(bb8);
+
+          const videoSD0 = new Video(new CalidadHD720(), 200, new Publico());
+          const videoHD1 = new Video(new CalidadSD(), 300, new Publico());
+          const videoHD2 = new Video(new CalidadHD1080(), 550, new Publico());
+          const videoSD3 = new Video(new CalidadSD(), 1200, new Publico());
+          const foto1 = new Foto(200, 600, new Publico());
+          const foto2 = new Foto(1200, 680, new Publico());
+          const foto3 = new Foto(550, 3600, new Publico());
+
+          juan.agregarPublicacion(videoSD0);
+          juan.agregarPublicacion(videoHD1);
+          juan.agregarPublicacion(videoHD2);
+          juan.agregarPublicacion(videoSD3);
+          juan.agregarPublicacion(foto1);
+          juan.agregarPublicacion(foto2);
+          juan.agregarPublicacion(foto3);
+
+          //juan total publicaciones = 7 --> 90% = 6.3
+          videoSD0.recibirMeGusta(bb8);
+          videoHD1.recibirMeGusta(bb8);
+          videoHD2.recibirMeGusta(bb8);
+          videoSD3.recibirMeGusta(bb8);
+          foto1.recibirMeGusta(bb8);
+          foto2.recibirMeGusta(bb8);
+          //bb8 total MeGusta = 6
+
+          assert.equal(false, juan.esStalker(bb8));
+        });
+        it("Es stalker si da MeGusta a más del 90% de las publicaciones", () => {
+          const juan = new Usuario();
+          const pedro = new Usuario();
+          const bb8 = new Usuario();
+
+          juan.agregarAmigo(pedro);
+          juan.agregarAmigo(bb8);
+
+          const videoSD0 = new Video(new CalidadHD720(), 200, new Publico());
+          const videoHD1 = new Video(new CalidadSD(), 300, new Publico());
+          const videoHD2 = new Video(new CalidadHD1080(), 550, new Publico());
+          const videoSD3 = new Video(new CalidadSD(), 1200, new Publico());
+          const foto1 = new Foto(200, 600, new Publico());
+          const foto2 = new Foto(1200, 680, new Publico());
+
+          juan.agregarPublicacion(videoSD0);
+          juan.agregarPublicacion(videoHD1);
+          juan.agregarPublicacion(videoHD2);
+          juan.agregarPublicacion(videoSD3);
+          juan.agregarPublicacion(foto1);
+          juan.agregarPublicacion(foto2);
+
+          //juan total publicaciones = 6 --> 90% = 5.4
+          videoSD0.recibirMeGusta(bb8);
+          videoHD1.recibirMeGusta(bb8);
+          videoHD2.recibirMeGusta(bb8);
+          videoSD3.recibirMeGusta(bb8);
+          foto1.recibirMeGusta(bb8);
+          foto2.recibirMeGusta(bb8);
+          //bb8 total MeGusta = 6
+
+          assert.equal(true, juan.esStalker(bb8));
         });
       });
     });

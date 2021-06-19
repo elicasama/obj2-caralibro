@@ -47,4 +47,17 @@ module.exports = class Usuario {
       publicacion.puedeSerVista(this)
     );
   }
+
+  cantidadDeMeGustaDado(usuario) {
+    return _.countBy(this.publicaciones, (publicacion) =>
+      publicacion.losQueDieronMegusta.includes(usuario)
+    ).true;
+  }
+
+  esStalker(usuario) {
+    return (
+      this.cantidadDeMeGustaDado(usuario) >=
+      Math.ceil(this.publicaciones.length * 0.9)
+    );
+  }
 };
