@@ -116,7 +116,7 @@ describe("Probando caralibro", () => {
 
       juan.agregarPublicacion(texto);
 
-      assert.equal(true, texto.esVisiblePor(juan));
+      assert.equal(true, texto.puedeSerVista(juan));
     });
 
     describe("Publico", () => {
@@ -129,7 +129,7 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(true, texto.esVisiblePor(pedro));
+        assert.equal(true, texto.puedeSerVista(pedro));
       });
     });
 
@@ -149,7 +149,7 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(true, texto.esVisiblePor(pedro));
+        assert.equal(true, texto.puedeSerVista(pedro));
       });
       it("Un usuario no puede ver una publicación si no está como amigo", () => {
         const juan = new Usuario();
@@ -165,7 +165,7 @@ describe("Probando caralibro", () => {
 
         juan.agregarPublicacion(texto);
 
-        assert.equal(false, texto.esVisiblePor(loco));
+        assert.equal(false, texto.puedeSerVista(loco));
       });
     });
 
@@ -183,7 +183,7 @@ describe("Probando caralibro", () => {
           new PrivadoListaPermitidos(usuariosPermitidos)
         );
 
-        assert.equal(true, videoSD.esVisiblePor(pedro));
+        assert.equal(true, videoSD.puedeSerVista(pedro));
       });
       it("Un usuario no puede ver una publicación si no está en la lista de permitidos", () => {
         const juan = new Usuario();
@@ -199,7 +199,7 @@ describe("Probando caralibro", () => {
           new PrivadoListaPermitidos(usuariosPermitidos)
         );
 
-        assert.equal(false, videoSD.esVisiblePor(pedro));
+        assert.equal(false, videoSD.puedeSerVista(pedro));
       });
     });
 
@@ -217,7 +217,7 @@ describe("Probando caralibro", () => {
           new ListaExcluidos(usuarioExcluidos)
         );
 
-        assert.equal(false, videoSD.esVisiblePor(pedro));
+        assert.equal(false, videoSD.puedeSerVista(pedro));
       });
       it("Un usuario puede ver una publicación si no está en la lista de excluidos", () => {
         const juan = new Usuario();
@@ -233,7 +233,7 @@ describe("Probando caralibro", () => {
           new ListaExcluidos(usuarioExcluidos)
         );
 
-        assert.equal(true, videoSD.esVisiblePor(pedro));
+        assert.equal(true, videoSD.puedeSerVista(pedro));
       });
     });
 
@@ -296,6 +296,44 @@ describe("Probando caralibro", () => {
           bb8.agregarAmigo(maria);
 
           assert.equal(false, juan.esMasAmistosoQue(bb8));
+        });
+      });
+
+      describe("Mejores Amigos", () => {
+        it("Conjunto de amigos que pueden ver todas las publicaciones", () => {
+          const juan = new Usuario();
+          const pedro = new Usuario();
+          const bb8 = new Usuario();
+          const jose = new Usuario();
+          const maria = new Usuario();
+
+          juan.agregarAmigo(maria);
+          juan.agregarAmigo(pedro);
+          juan.agregarAmigo(bb8);
+          juan.agregarAmigo(jose);
+
+          const conPermisos = [pedro, bb8];
+          const excluidos = [jose];
+
+          const videoHD720 = new Video(
+            CalidadHD720,
+            180,
+            new ListaExcluidos(excluidos)
+          );
+
+          const videoHD1080 = new Video(
+            CalidadHD1080,
+            2002,
+            new PrivadoListaPermitidos(conPermisos)
+          );
+
+          const foto = new Foto(200, 600, new Publico());
+
+          juan.agregarPublicacion(videoHD1080);
+          juan.agregarPublicacion(videoHD720);
+          juan.agregarPublicacion(foto);
+
+          assert.deepEqual([pedro, bb8], juan.mejoresAmigos());
         });
       });
     });

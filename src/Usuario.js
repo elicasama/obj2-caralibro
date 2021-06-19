@@ -24,11 +24,19 @@ module.exports = class Usuario {
     return this.amigos.length > usuario.amigos.length;
   }
 
-
-
   elMasPopular() {
     return this.amigos.reduce((popular, amigo) =>
       popular.amigos.length > amigo.amigos.length ? popular : amigo
     );
+  }
+
+  mejoresAmigos() {
+    return this.amigos.filter((amigo) =>
+      amigo.puedeVerTodas(this.publicaciones)
+    );
+  }
+
+  puedeVerTodas(publicaciones) {
+    return publicaciones.every((publicacion) => publicacion.puedeSerVista(this));
   }
 };
