@@ -111,7 +111,7 @@ describe("Probando caralibro", () => {
       juan.agregarAmigo(bb8);
 
       const contenido = "Un pequeño contenido de pocas letras";
-      const texto = new Texto(contenido, new SoloAmigos(juan));
+      const texto = new Texto(contenido, new ListaExcluidos([juan, pedro]));
 
       juan.agregarPublicacion(texto);
 

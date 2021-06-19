@@ -13,8 +13,10 @@ module.exports = class Publicacion {
       this.losQueDieronMegusta.push(usuario);
     }
   }
+
   puedeSerVista(usuario) {
-    return this.permiso.permiteVer(usuario);
+    return this.usuario === usuario || this.permiso.permiteVer(usuario);
+    // return this.usuario === usuario ? false : this.permiso.permiteVer(usuario);
   }
 
   cantidadDeMegusta() {

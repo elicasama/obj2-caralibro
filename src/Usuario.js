@@ -3,10 +3,11 @@ var _ = require("lodash");
 module.exports = class Usuario {
   constructor() {
     this.publicaciones = [];
-    this.amigos = [this];
+    this.amigos = [];
   }
 
   agregarPublicacion(publicacion) {
+    publicacion.usuario = this;
     this.publicaciones.push(publicacion);
   }
 
@@ -30,8 +31,7 @@ module.exports = class Usuario {
 
   totalDeMeGusta() {
     return this.publicaciones.reduce(
-      (total, publicacion) =>
-        (total = +total + publicacion.cantidadDeMegusta()),
+      (total, publicacion) => total + publicacion.cantidadDeMegusta(),
       0
     );
   }
