@@ -30,6 +30,7 @@ module.exports = class Usuario {
   }
 
   totalDeMeGusta() {
+    // [!] Podría ser un sumBy, como espacioDePublicaciones
     return this.publicaciones.reduce(
       (total, publicacion) => total + publicacion.cantidadDeMegusta(),
       0
@@ -49,8 +50,11 @@ module.exports = class Usuario {
   }
 
   cantidadDeMeGustaDado(usuario) {
-    return _.countBy(this.publicaciones, (publicacion) =>
-      publicacion.losQueDieronMegusta.includes(usuario)
+    return _.countBy(
+      this.publicaciones,
+      (publicacion) => publicacion.losQueDieronMegusta.includes(usuario)
+      // [!] esto podría ser publicacion.leGustaA(usuario)
+      // falta delegar
     ).true;
   }
 

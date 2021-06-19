@@ -7,11 +7,11 @@ module.exports = class Publicacion {
   }
 
   recibirMeGusta(usuario) {
-    if (this.losQueDieronMegusta.includes(usuario)) {
+    if (this.losQueDieronMegusta.includes(usuario))
       throw new errores.ElUsuarioYaDioMegusta();
-    } else {
-      this.losQueDieronMegusta.push(usuario);
-    }
+    // } else { [!] No hace falta el else porque el throw corta la ejecución (como return)
+    this.losQueDieronMegusta.push(usuario);
+    // }
   }
 
   puedeSerVista(usuario) {

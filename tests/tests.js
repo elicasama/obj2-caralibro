@@ -133,6 +133,13 @@ describe("Probando caralibro", () => {
     });
 
     describe("Sólo Amigos", () => {
+      // [!] Acá se podría evitar un poco repetir el código
+      // poniendo algo del setup acá, privado para este describe
+      // const juan = new Usuario();
+      // const pedro = new Usuario();
+      // const loco = new Usuario();
+      // const bb8 = new Usuario();
+
       it("Un usuario puede ver una publicación si está como amigo", () => {
         const contenido = "Un pequeño contenido de pocas letras";
         const juan = new Usuario();
@@ -224,7 +231,7 @@ describe("Probando caralibro", () => {
         const loco = new Usuario();
         const bb8 = new Usuario();
 
-        const usuarioExcluidos = [loco, bb8, juan];
+        const usuarioExcluidos = [loco, bb8, juan]; // [!] usuariosExcluidos
 
         const videoSD = new Video(
           CalidadSD,
@@ -276,6 +283,7 @@ describe("Probando caralibro", () => {
         //publicaciones de Maria ---> 1 MeGusta
         videoHD2.recibirMeGusta(bb8);
 
+        // [!] Che no dejes los logs en los tests
         console.log("Total de MeGusta de Pedro: " + pedro.totalDeMeGusta());
         assert.deepEqual(pedro, bb8.elMasPopular());
       });

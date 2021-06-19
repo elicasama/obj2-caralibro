@@ -5,6 +5,7 @@ module.exports = class Texto extends Publicacion {
     super(permiso);
     this.contenido = contenido;
   }
+
   espacioQueOcupa() {
     return this.contenido.length;
   }

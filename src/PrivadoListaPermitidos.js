@@ -1,5 +1,6 @@
 const Publicacion = require("./Publicacion");
 
+// [!] Este nombre es inconsistente con ListaExcluidos
 module.exports = class PrivadoListaPermitidos extends Publicacion {
   constructor(usuariosPermitidos) {
     super();
