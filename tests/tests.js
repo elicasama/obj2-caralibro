@@ -238,26 +238,48 @@ describe("Probando caralibro", () => {
     });
 
     describe("Amigos", () => {
-      it("El más popular de mis amigos es aquel que tiene más amigos", () => {
+      it("El más popular de mis amigos es aquel que tiene más MeGusta en sus publicaciones", () => {
         const juan = new Usuario();
         const pedro = new Usuario();
         const bb8 = new Usuario();
         const jose = new Usuario();
         const maria = new Usuario();
 
-        juan.agregarAmigo(jose);
-        juan.agregarAmigo(bb8);
-        juan.agregarAmigo(maria);
-
         bb8.agregarAmigo(juan);
         bb8.agregarAmigo(pedro);
         bb8.agregarAmigo(jose);
         bb8.agregarAmigo(maria);
 
-        jose.agregarAmigo(pedro);
-        jose.agregarAmigo(maria);
 
-        assert.deepEqual(bb8, juan.elMasPopular());
+        const videoSD0 = new Video(new CalidadHD720(), 200, new Publico());
+        const videoHD1 = new Video(new CalidadSD(), 300, new Publico());
+        const videoHD2 = new Video(new CalidadHD1080(), 550, new Publico());
+        const videoSD3 = new Video(new CalidadSD(), 1200, new Publico());
+        
+        juan.agregarPublicacion(videoSD0);
+        pedro.agregarPublicacion(videoHD1)
+        pedro.agregarPublicacion(videoSD3);
+        maria.agregarPublicacion(videoHD2);
+
+        //publicaciones de Juan ---> 4 MeGusta
+        videoSD0.recibirMeGusta(pedro);
+        videoSD0.recibirMeGusta(jose);
+        videoSD0.recibirMeGusta(maria);
+
+        //publicaciones de Pedro ---> 6 MeGusta
+        videoHD1.recibirMeGusta(juan);
+        videoHD1.recibirMeGusta(jose);
+
+        videoSD3.recibirMeGusta(juan);
+        videoSD3.recibirMeGusta(maria);
+        videoSD3.recibirMeGusta(jose);
+        videoSD3.recibirMeGusta(bb8);
+
+        //publicaciones de Maria ---> 1 MeGusta        
+        videoHD2.recibirMeGusta(bb8)
+
+        console.log("Total de MeGusta de Pedro: " + pedro.totalDeMeGusta());
+        assert.deepEqual(pedro, bb8.elMasPopular());
       });
 
       describe("Más amistoso", () => {

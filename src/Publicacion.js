@@ -16,4 +16,8 @@ module.exports = class Publicacion {
   puedeSerVista(usuario) {
     return this.permiso.permiteVer(usuario);
   }
+
+  cantidadDeMegusta() {
+    return this.losQueDieronMegusta.length;
+  }
 };

@@ -25,8 +25,14 @@ module.exports = class Usuario {
   }
 
   elMasPopular() {
-    return this.amigos.reduce((popular, amigo) =>
-      popular.amigos.length > amigo.amigos.length ? popular : amigo
+    return _.maxBy(this.amigos, (amigo) => amigo.totalDeMeGusta());
+  }
+
+  totalDeMeGusta() {
+    return this.publicaciones.reduce(
+      (total, publicacion) =>
+        (total = +total + publicacion.cantidadDeMegusta()),
+      0
     );
   }
 
@@ -37,6 +43,8 @@ module.exports = class Usuario {
   }
 
   puedeVerTodas(publicaciones) {
-    return publicaciones.every((publicacion) => publicacion.puedeSerVista(this));
+    return publicaciones.every((publicacion) =>
+      publicacion.puedeSerVista(this)
+    );
   }
 };
