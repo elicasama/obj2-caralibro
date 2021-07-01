@@ -1,10 +1,4 @@
-const Video = require("./Video");
-
-module.exports = class CalidadSD extends Video {
-  constructor() {
-    super();
-  }
-
+module.exports = class CalidadSD {
   calcularEspacio(duracion) {
     return duracion;
   }

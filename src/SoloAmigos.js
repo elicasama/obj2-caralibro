@@ -1,8 +1,5 @@
-const Publicacion = require("./Publicacion");
-
-module.exports = class SoloAmigos extends Publicacion {
+module.exports = class SoloAmigos {
   constructor(usuarioQuePublica) {
-    super();
     this.usuarioQuePublica = usuarioQuePublica;
   }
 
